@@ -1,0 +1,52 @@
+#!/bin/bash
+
+PROBLEM=real6
+PROBLEM_BONITO="Real 6"
+
+:'
+# Variar learnrate
+make compila_real_split
+ficheros=""
+declare -a alphas=(0.1 0.01 0.001)
+for alpha in "${alphas[@]}"
+do
+    fichero=plottingScripts/ejecuciones/$PROBLEM.learn=${alpha/./,}.output    
+    ficheros+="${fichero} "
+    ./ejercicio_problema_real_split.bin "data/problema_${PROBLEM}.txt" ${alpha} 10 0.7 0.15 5000 50 1 > ${fichero}
+    sleep 1
+done
+
+python3 plottingScripts/plotReal.py "plottingScripts/images/${PROBLEM}_learn.png" "Problema ${PROBLEM_BONITO}" "10 neuronas en capa oculta - Paciencia = 50 epochs" ${ficheros}
+'
+
+:'
+# Variar numero de neuronas
+make compila_real_split
+ficheros=""
+declare -a alphas=(5 10 20)
+for alpha in "${alphas[@]}"
+do
+    fichero=plottingScripts/ejecuciones/$PROBLEM.neuronas=${alpha/./,}.output    
+    ficheros+="${fichero} "
+    ./ejercicio_problema_real_split.bin "data/problema_${PROBLEM}.txt" 0.001 ${alpha} 0.7 0.15 5000 50 1 > ${fichero}
+    sleep 1
+done
+
+python3 plottingScripts/plotReal.py "plottingScripts/images/${PROBLEM}_neurs.png" "Problema ${PROBLEM_BONITO}" "Tasa de aprendizaje = 0.001 - Paciencia = 50 epochs" ${ficheros}
+'
+
+#:'
+# Variar paciencia
+make compila_real_split
+ficheros=""
+declare -a alphas=(10 50 100)
+for alpha in "${alphas[@]}"
+do
+    fichero=plottingScripts/ejecuciones/$PROBLEM.paciencia=${alpha/./,}.output    
+    ficheros+="${fichero} "
+    ./ejercicio_problema_real_split.bin "data/problema_${PROBLEM}.txt" 0.001 20 0.7 0.15 5000 ${alpha} 1 > ${fichero}
+    sleep 1
+done
+
+python3 plottingScripts/plotReal.py "plottingScripts/images/${PROBLEM}_paci.png" "Problema ${PROBLEM_BONITO}" "Tasa de aprendizaje = 0.001 - 20 neuronas en capa oculta" ${ficheros}
+#'

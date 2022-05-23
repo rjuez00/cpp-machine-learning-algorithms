@@ -1,0 +1,97 @@
+#!/bin/bash
+
+
+':
+# Real 1 variando alpha
+
+#make compila_perceptron_real1
+make compila_adaline_real1
+mkdir -p ejecuciones
+ficheros=""
+declare -a alphas=(0.1 0.01 0.001 0.0001)
+for alpha in "${alphas[@]}"
+do
+#    fichero=ejecuciones/per_real1.α=${alpha/./,}.output    
+    fichero=ejecuciones/ada_real1.α=${alpha/./,}.output    
+    ficheros+="${fichero} "
+#    ./ejercicio4_perceptron_real1.bin "ej4files/problema_real1.txt" $alpha 0.2 0.7 > ${fichero}
+    ./ejercicio4_adaline_real1.bin "ej4files/problema_real1.txt" $alpha 0.7 0.0001 > ${fichero}
+done
+
+#python3 plottingScripts/plotReal.py "plottingScripts/images/per_real1_learnrate.png" "Perceptrón - ECM variando la tasa de aprendizaje (α) - Umbral (θ) = 0.2" ${ficheros}
+python3 plottingScripts/plotReal.py "plottingScripts/images/ada_real1_learnrate.png" "Adaline - ECM variando la tasa de aprendizaje (α) - Tol = 0,0001" ${ficheros}
+'
+
+
+':
+# Real 1 variando umbral
+
+make compila_perceptron_real1
+mkdir -p ejecuciones
+ficheros=""
+declare -a alphas=(0.1 0.2 0.4 0.8)
+for alpha in "${alphas[@]}"
+do
+    fichero=ejecuciones/per_real1.θ=${alpha/./,}.output     
+    ficheros+="${fichero} "
+    ./ejercicio4_perceptron_real1.bin "ej4files/problema_real1.txt" 0.1 $alpha 0.7 > ${fichero}
+done
+
+python3 plottingScripts/plotReal.py "plottingScripts/images/per_real1_umbral.png" "Perceptrón - ECM variando el umbral (θ) - Tasa de aprendizaje (α) = 0.1" ${ficheros}
+'
+
+
+# Real 1 variando tolerancia
+
+make compila_adaline_real1
+mkdir -p ejecuciones
+ficheros=""
+declare -a alphas=(0.01 0.001 0.0001)
+for alpha in "${alphas[@]}"
+do
+    fichero=ejecuciones/ada_real1.tol=${alpha/./,}.output    
+    ficheros+="${fichero} "
+    ./ejercicio4_adaline_real1.bin "ej4files/problema_real1.txt" 0.01 0.7 $alpha > ${fichero}
+    sleep 1
+done
+
+python3 plottingScripts/plotReal.py "plottingScripts/images/ada_real1_tol.png" "Adaline - ECM variando la tolerancia - Tasa de aprendizaje (α) = 0.1" ${ficheros}
+
+
+':
+# Real 2 variando alpha
+
+#make compila_perceptron_real1
+make compila_adaline_real1
+mkdir -p ejecuciones
+ficheros=""
+declare -a alphas=(0.1 0.01 0.001 0.0001)
+for alpha in "${alphas[@]}"
+do
+#    fichero=ejecuciones/per_real2.α=${alpha/./,}.output    
+    fichero=ejecuciones/ada_real2.α=${alpha/./,}.output    
+    ficheros+="${fichero} "
+#    ./ejercicio4_perceptron_real1.bin "ej4files/problema_real2.txt" $alpha 0.2 0.7 > ${fichero}
+    ./ejercicio4_adaline_real1.bin "ej4files/problema_real2.txt" $alpha 0.7 0.0001 > ${fichero}
+done
+
+#python3 plottingScripts/plotReal.py "plottingScripts/images/per_real2_learnrate.png" "Perceptrón - ECM variando la tasa de aprendizaje (α) - Umbral (θ) = 0.2" ${ficheros}
+python3 plottingScripts/plotReal.py "plottingScripts/images/ada_real2_learnrate.png" "Adaline - ECM variando la tasa de aprendizaje (α) - Tol = 0,0001 " ${ficheros}
+'
+
+':
+# Real 2 variando umbral
+
+make compila_perceptron_real1
+mkdir -p ejecuciones
+ficheros=""
+declare -a alphas=(0.1 0.2 0.4 0.8)
+for alpha in "${alphas[@]}"
+do
+    fichero=ejecuciones/per_real2.θ=${alpha/./,}.output     
+    ficheros+="${fichero} "
+    ./ejercicio4_perceptron_real1.bin "ej4files/problema_real2.txt" 0.001 $alpha 0.7 > ${fichero}
+done
+
+python3 plottingScripts/plotReal.py "plottingScripts/images/per_real2_umbral.png" "Perceptrón - ECM variando el umbral (θ) - Tasa de aprendizaje (α) = 0.001" ${ficheros}
+'
